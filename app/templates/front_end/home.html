@@ -1,0 +1,12 @@
+{% extends "front_end/layout.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>O365 Notebook using Graph API</h1>
+  {% if user.is_authenticated %}
+    <h4>Welcome {{ user.name }}!</h4>
+    <a href="{% url 'app:notebook' %}" class="btn btn-primary btn-large">NOTEBOOK</a>
+  {% else %}
+    <a href="{% url 'app:signin' %}" class="btn btn-primary btn-large">Click here to sign in</a>
+  {% endif %}
+</div>
+{% endblock %}

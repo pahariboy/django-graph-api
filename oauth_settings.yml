@@ -1,0 +1,10 @@
+app_id: "435bc5a2-0f90-489e-94b3-8c8f69a3c15d"
+app_secret: "462~v8lztu-cn1m1mx-36rrAsVL~_z0-88"
+redirect: "http://localhost:8000/callback"
+scopes:
+  - user.read
+  - mailboxsettings.read
+  - notes.create
+  - notes.readwrite
+  - notes.readwrite.all
+authority: "https://login.microsoftonline.com/common"
