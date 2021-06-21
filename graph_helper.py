@@ -31,7 +31,8 @@ def create_notebook(token,notebook_name):
     notebook = requests.post(
     '{0}/me/onenote/notebooks'.format(graph_url),
     headers={
-      'Authorization': 'Bearer {0}'.format(token)
+      'Authorization': 'Bearer {0}'.format(token),
+      'Content-Type': 'application/json'
     },
-    params=json.dumps(new_event))
+    data=json.dumps(new_event))
     return notebook.json()
