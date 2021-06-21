@@ -1,6 +1,6 @@
 import yaml
 import msal
-import os
+import os,atexit
 import time
 
 # Load the oauth_settings.yml file
@@ -42,6 +42,11 @@ def remove_user_and_token(request):
 def load_cache(request):
   # Check for a token cache in the session
   cache = msal.SerializableTokenCache()
+  if os.path.exists(os.path.dirname(__file__)+"/my_cache.bin"):
+    cache.deserialize(open(os.path.dirname(__file__)+"/my_cache.bin", "r").read())
+  atexit.register(lambda:
+    open(os.path.dirname(__file__)+"/my_cache.bin", "w").write(cache.serialize())
+    )
   if request.session.get('token_cache'):
     cache.deserialize(request.session['token_cache'])
 

@@ -13,7 +13,7 @@ def getnb(request):
   token = get_token(request)
   response = get_notebook(token)
   context["notes_list"] = response['value']
-  return render(request, 'front_end/result.html', context)
+  return render(request, 'front_end/result.html', context,status=204)
 
 def createnb(request):
   response = None
@@ -22,7 +22,6 @@ def createnb(request):
   print(f"notebook name is {notebook_name}")
   token = get_token(request)
   res = create_notebook(token,notebook_name)
-  print(res)
   context["operation_type"] = "create"
   return render(request, 'front_end/result.html', context)
 

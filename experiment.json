@@ -1,0 +1,81 @@
+{
+    "version": "1.0.0",
+    "title": "impact on django app",
+    "description": "clear the cache",
+    "tags": ["django"],
+    "steady-state-hypothesis": {
+        "title": "Application responds",
+        "probes": [
+            {
+                "type": "probe",
+                "name": "Notebook web app should respond",
+                "tolerance": 200,
+                "provider": {
+                    "type": "http",
+                    "url" : "http://localhost:8000"
+                }
+            },
+            {
+                "type": "probe",
+                "name": "Notebook get api should respond",
+                "tolerance": 204,
+                "provider": {
+                    "type": "http",
+                    "url" : "http://localhost:8000/getnb"
+                }
+            }
+        ]
+    },
+    "method": [
+        {
+            "type": "action",
+            "name": "create a empty file",
+            "provider": {
+                "type": "process",
+                "path": "touch",
+                "arguments": "clean_cache"
+            }
+        },
+        {
+            "type": "action",
+            "name": "copy original cache file",
+            "provider": {
+                "type": "process",
+                "path": "cp",
+                "arguments": "my_cache.bin orig_my_cache.bin"
+            }
+        },
+        {
+            "type": "action",
+            "name": "replace the cache",
+            "provider": {
+                "type": "process",
+                "path": "mv",
+                "arguments": "clean_cache my_cache.bin"
+            }
+        },
+        {
+                "type": "probe",
+                "name": "check whether app responds or not",
+                "tolerance": 204,
+                "provider": {
+                    "type": "http",
+                    "url" : "http://localhost:8000/getnb"
+                }
+            }
+    ],
+    "rollbacks": [
+        {
+            "type": "action",
+            "name": "put back original cache",
+            "provider": {
+                "type": "process",
+                "path": "mv",
+                "arguments": "orig_my_cache.bin my_cache.bin"
+            }
+        },
+        {
+            "ref": "check whether app responds or not"
+        }
+    ]
+}
